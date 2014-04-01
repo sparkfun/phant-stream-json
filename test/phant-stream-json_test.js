@@ -2,7 +2,7 @@
 
 var phantStream = require('../lib/phant-stream-json.js');
 
-exports.phantStream= {
+exports.phantStream = {
   setUp: function(done) {
     done();
   },

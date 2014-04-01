@@ -20,7 +20,8 @@
     }
   ],
   "dependencies": {
-    "lodash": "^2.4.1"
+    "mkdirp": "^0.3.5",
+    "log-rotate": "git://github.com/toddtreece/log-rotate.git"
   },
   "devDependencies": {
     "grunt": "^0.4.4",
