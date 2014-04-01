@@ -21,7 +21,7 @@
   ],
   "dependencies": {
     "mkdirp": "^0.3.5",
-    "log-rotate": "git://github.com/toddtreece/log-rotate.git"
+    "log-rotate": "^0.2.7"
   },
   "devDependencies": {
     "grunt": "^0.4.4",
