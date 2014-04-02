@@ -1,6 +1,6 @@
 'use strict';
 
-var phantStream = require('../lib/phant-stream-json.js');
+var phantStream = require('../index.js');
 
 exports.phantStream = {
   setUp: function(done) {
