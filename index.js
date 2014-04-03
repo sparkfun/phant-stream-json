@@ -39,7 +39,7 @@ function PhantStream(options) {
   util._extend(this, options);
 
   // point the file helpers at passed root folder
-  helpers = helpers({root: this.root});
+  this.helpers = helpers({root: this.root});
 
 }
 
@@ -69,7 +69,7 @@ app.write = function(id, data) {
 
   var stream = this.writeStream(id);
 
-  stream.write(JSON.stringify(data) + '\n');
+  stream.end(JSON.stringify(data) + '\n');
 
 };
 
@@ -85,6 +85,8 @@ app.writeStream = function(id) {
 
 app.stats = function(id, cb) {
 
+  var self = this;
+
   var stats = {
     pageCount: 0,
     remaining: 0,
@@ -94,7 +96,7 @@ app.stats = function(id, cb) {
 
   async.parallel([
     function(callback) {
-      helpers.usedStorage(id, function(err, used) {
+      self.helpers.usedStorage(id, function(err, used) {
 
         if(err) {
           callback(err);
@@ -107,7 +109,7 @@ app.stats = function(id, cb) {
       });
     },
     function(callback) {
-      helpers.pageCount(id, function(err, count) {
+      self.helpers.pageCount(id, function(err, count) {
 
         if(err) {
           callback(err);
