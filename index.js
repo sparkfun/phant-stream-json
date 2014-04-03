@@ -39,14 +39,14 @@ function PhantStream(options) {
   util._extend(this, options);
 
   // point the file helpers at passed root folder
-  this.helpers = helpers({root: this.root});
+  this.helpers = helpers({root: this.directory});
 
 }
 
 app.name = 'phant json stream';
 app.cap = 50 * 1024 * 1024; // 50mb
 app.chunk = 500 * 1024; // 500k
-app.root = 'tmp';
+app.directory = 'tmp';
 
 app.readStream = function(id, page) {
 
@@ -60,7 +60,7 @@ app.readStream = function(id, page) {
   return new Readable(id, {
     page: page,
     all: all,
-    root: this.root
+    root: this.directory
   });
 
 };
@@ -78,7 +78,7 @@ app.writeStream = function(id) {
   return new Writable(id, {
     cap: this.cap,
     chunk: this.chunk,
-    root: this.root
+    root: this.directory
   });
 
 };
