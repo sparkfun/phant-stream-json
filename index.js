@@ -10,7 +10,8 @@
 
 /**** Module dependencies ****/
 var util = require('util'),
-    events = require('events');
+    events = require('events'),
+    async = require('async'),
     helpers = require('./lib/helpers'),
     Readable = require('./lib/readable'),
     Writable = require('./lib/writable');
@@ -43,4 +44,40 @@ function PhantStream(options) {
 }
 
 app.root = 'tmp';
+app.cap = 50 * 1024 * 1024; // 50mb
+app.chunk = 500 * 1024; // 500k
+app.root = 'tmp';
 
+app.read = function(id, page) {
+
+  var all = false;
+
+  if(! page) {
+    all = true;
+    page = 1;
+  }
+
+  return new Readable(id, {
+    page: page,
+    all: all,
+    root: this.root
+  });
+
+};
+
+app.write = function(id, data) {
+
+  var payload = {
+    id: id,
+    data: data
+  };
+
+  var stream = new Writable(id, {
+    cap: this.cap,
+    chunk: this.chunk,
+    root: this.root
+  });
+
+  stream.write(JSON.stringify(data) + '\n');
+
+};
