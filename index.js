@@ -115,7 +115,7 @@ app.stats = function(id, cb) {
           callback(err);
         }
 
-        stats.pageCount = pageCount;
+        stats.pageCount = count;
 
         callback();
 
@@ -128,6 +128,9 @@ app.stats = function(id, cb) {
       }
 
       stats.remaining = stats.cap - stats.used;
+
+      if(stats.remaining < 0)
+        stas.remaining = 0;
 
       cb(null, stats);
 
