@@ -94,7 +94,7 @@ app.stats = function(id, cb) {
 
   async.parallel([
     function(callback) {
-      helpers.used(id, function(err, used) {
+      helpers.usedStorage(id, function(err, used) {
 
         if(err) {
           callback(err);
