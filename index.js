@@ -43,12 +43,12 @@ function PhantStream(options) {
 
 }
 
-app.root = 'tmp';
+app.name = 'phant json stream';
 app.cap = 50 * 1024 * 1024; // 50mb
 app.chunk = 500 * 1024; // 500k
 app.root = 'tmp';
 
-app.read = function(id, page) {
+app.readStream = function(id, page) {
 
   var all = false;
 
@@ -67,18 +67,19 @@ app.read = function(id, page) {
 
 app.write = function(id, data) {
 
-  var payload = {
-    id: id,
-    data: data
-  };
+  var stream = this.writeStream(id);
 
-  var stream = new Writable(id, {
+  stream.write(JSON.stringify(data) + '\n');
+
+};
+
+app.writeStream = function(id) {
+
+  return new Writable(id, {
     cap: this.cap,
     chunk: this.chunk,
     root: this.root
   });
-
-  stream.write(JSON.stringify(data) + '\n');
 
 };
 
