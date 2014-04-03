@@ -81,3 +81,53 @@ app.write = function(id, data) {
   stream.write(JSON.stringify(data) + '\n');
 
 };
+
+app.stats = function(id, cb) {
+
+  var stats = {
+    pageCount: 0,
+    remaining: 0,
+    used: 0,
+    cap: this.cap
+  };
+
+  async.parallel([
+    function(callback) {
+      helpers.used(id, function(err, used) {
+
+        if(err) {
+          callback(err);
+        }
+
+        stats.used = used;
+
+        callback();
+
+      });
+    },
+    function(callback) {
+      helpers.pageCount(id, function(err, count) {
+
+        if(err) {
+          callback(err);
+        }
+
+        stats.pageCount = pageCount;
+
+        callback();
+
+      });
+    }
+  ], function(err) {
+
+      if(err) {
+        cb(err);
+      }
+
+      stats.remaining = stats.cap - stats.used;
+
+      cb(null, stats);
+
+  });
+
+};
