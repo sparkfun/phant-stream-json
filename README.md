@@ -1,6 +1,6 @@
 # phant-stream-json [![Build Status](https://secure.travis-ci.org/sparkfun/phant-stream-json.png?branch=master)](http://travis-ci.org/sparkfun/phant-stream-json)
 
-test metadata for phant development
+readable & writable json storage for phant
 
 ## Getting Started
 Install the module with: `npm install phant-stream-json`
