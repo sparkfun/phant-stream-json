@@ -14,7 +14,8 @@ var util = require('util'),
     async = require('async'),
     helpers = require('./lib/helpers'),
     Readable = require('./lib/readable'),
-    Writable = require('./lib/writable');
+    Writable = require('./lib/writable'),
+    JSONStream = require('JSONStream');
 
 /**** Make PhantStream an event emitter ****/
 util.inherits(PhantStream, events.EventEmitter);
@@ -62,6 +63,25 @@ app.readStream = function(id, page) {
     all: all,
     root: this.directory
   });
+
+};
+
+app.objectReadStream = function(id, page) {
+
+  var read = this.readStream(id, page),
+      transformed = read.pipe(JSONStream.parse());
+
+  transformed.all = read.all;
+
+  read.on('error', function(err) {
+    transformed.emit('error', err);
+  });
+
+  read.on('open', function() {
+    transformed.emit('open');
+  });
+
+  return transformed;
 
 };
 
