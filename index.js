@@ -93,6 +93,20 @@ app.write = function(id, data) {
 
 };
 
+app.clear = function(id) {
+
+  var self = this;
+
+  this.helpers.rmdir(id, function(err) {
+
+    if(err) {
+      self.emit('error', err);
+    }
+
+  });
+
+};
+
 app.writeStream = function(id) {
 
   return new Writable(id, {
