@@ -1,6 +1,6 @@
 {
   "name": "phant-stream-json",
-  "version": "1.4.0",
+  "version": "1.4.1",
   "main": "index.js",
   "description": "json storage for phant data",
   "homepage": "https://github.com/sparkfun/phant-stream-json",
