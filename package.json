@@ -23,7 +23,8 @@
     "mkdirp": "^0.3.5",
     "log-rotate": "^0.2.7",
     "async": "^0.6.2",
-    "JSONStream": "^0.8.0"
+    "JSONStream": "^0.8.0",
+    "rimraf": "^2.2.6"
   },
   "devDependencies": {
     "grunt": "^0.4.4",
