@@ -11,7 +11,6 @@
 /**** Module dependencies ****/
 var util = require('util'),
     events = require('events'),
-    async = require('async'),
     helpers = require('./lib/helpers'),
     Readable = require('./lib/readable'),
     Writable = require('./lib/writable'),
@@ -119,55 +118,23 @@ app.writeStream = function(id) {
 
 app.stats = function(id, cb) {
 
-  var self = this;
+  var cap = this.cap;
 
-  var stats = {
-    pageCount: 0,
-    remaining: 0,
-    used: 0,
-    cap: this.cap
-  };
+  this.helpers.stats(id, function(err, stats) {
 
-  async.parallel([
-    function(callback) {
-      self.helpers.usedStorage(id, function(err, used) {
-
-        if(err) {
-          callback(err);
-        }
-
-        stats.used = used;
-
-        callback();
-
-      });
-    },
-    function(callback) {
-      self.helpers.pageCount(id, function(err, count) {
-
-        if(err) {
-          callback(err);
-        }
-
-        stats.pageCount = count;
-
-        callback();
-
-      });
+    if(err) {
+      cb(err);
     }
-  ], function(err) {
 
-      if(err) {
-        cb(err);
-      }
+    stats.cap = cap;
+    stats.remaining = cap - stats.used;
 
-      stats.remaining = stats.cap - stats.used;
+    if(stats.remaining < 0) {
+      stats.remaining = 0;
+    }
 
-      if(stats.remaining < 0)
-        stats.remaining = 0;
+    cb(null, stats);
 
-      cb(null, stats);
-
-  });
+  }.bind(this));
 
 };
