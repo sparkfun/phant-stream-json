@@ -14,11 +14,10 @@
     "type": "git",
     "url": "git://github.com/sparkfun/phant-stream-json"
   },
-  "licenses": [
-    {
-      "type": "GPL v3"
-    }
-  ],
+  "license": "GPL-3.0",
+  "engines": {
+    "node": "^0.10.29"
+  },
   "dependencies": {
     "mkdirp": "^0.3.5",
     "log-rotate": "^0.2.7",
@@ -36,5 +35,31 @@
   },
   "scripts": {
     "test": "grunt"
+  },
+  "phantConfig": {
+    "name": "JSON",
+    "options": [
+      {
+        "label": "Storage Directory Path",
+        "name": "directory",
+        "default": "phant_streams",
+        "type": "text",
+        "description": "The directory to store phant streams in. It can be a full or relative path."
+      },
+      {
+        "label": "Cap",
+        "name": "cap",
+        "default": "52428800",
+        "type": "number",
+        "description": "Cap the size of the streams to this number in bytes. 0 for no cap."
+      },
+      {
+        "label": "Chunk",
+        "name": "chunk",
+        "default": "262144",
+        "type": "number",
+        "description": "The size in bytes to split the JSON files into."
+      }
+    ]
   }
 }
