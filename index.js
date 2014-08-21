@@ -43,7 +43,7 @@ function PhantStream(options) {
 
 }
 
-app.name = 'phant json stream';
+app.moduleName = 'JSON stream';
 app.cap = 50 * 1024 * 1024; // 50mb
 app.chunk = 500 * 1024; // 500k
 app.directory = 'tmp';
