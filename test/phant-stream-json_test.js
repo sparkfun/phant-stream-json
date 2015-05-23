@@ -3,6 +3,7 @@
 var Stream = require('../index.js'),
     path = require('path'),
     rimraf = require('rimraf'),
+    fs = require('fs'),
     i = 0;
 
 var stream = new Stream({
@@ -40,6 +41,7 @@ exports.create = function(test) {
   writeable.end(JSON.stringify({test1: i, test2: generateData(100)}) + '\n');
 
   writeable.on('finish', function() {
+
     test.done();
   });
 
@@ -59,6 +61,51 @@ exports.read = function(test) {
     test.done();
   });
 
+};
+
+exports.read_close_with_page = function(test) {
+
+  test.expect(1);
+  var page = 1,
+      readable = stream.readStream('abcdef12345',page);
+
+  readable.on('data', function() { });
+
+  readable.on('open', function(fd) {
+    readable.once('end', function() {
+
+      test.throws(function() { fs.closeSync(fd); },
+                               Error,
+                               "fs.close should throw exception due to already closed file descriptor.");
+      
+      test.done();
+    }); 
+  });
+};
+
+exports.read_close = function(test) {
+
+  var readable = stream.readStream('abcdef12345', false);
+
+  readable.on('data', function() {});
+
+  var fds = [];
+  readable.on('open', function(fd) {
+    fds.push(fd);
+  });
+
+  readable.on('end', function() {
+
+    test.expect(fds.length);
+
+    fds.forEach(function(fd) {
+      test.throws(function() { fs.closeSync(fd); },
+                  Error,
+                  "fs.close should throw exception due to already closed file descriptor.");
+    });
+
+    test.done();
+  });
 };
 
 exports.cleanup = function(test) {
